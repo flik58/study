@@ -133,6 +133,60 @@ func a8() {
 	<-done
 }
 
+func a9() {
+	start := time.Now()
+	timer1 := time.NewTimer(5 * time.Second)
+	<-timer1.C
+	fmt.Println("It's time!")
+	end := time.Now()
+	fmt.Printf("%f sec\n", (end.Sub(start)).Seconds())
+}
+
+func a10() {
+	ticker := time.NewTicker(500 * time.Millisecond)
+	go func() {
+		for t := range ticker.C {
+			fmt.Println("Tick at", t)
+		}
+	}()
+
+	time.Sleep(1600 * time.Millisecond)
+	ticker.Stop()
+	fmt.Println("Ticker stopped")
+}
+
+func worker(id int, jobs <-chan int, results chan<- int) {
+	for j := range jobs {
+		fmt.Println("worker", id, "started job", j)
+		time.Sleep(time.Second)
+		fmt.Println("worker", id, "finished job", j)
+		results <- j * 2
+	}
+}
+
+func a11() {
+	start := time.Now()
+
+	jobs := make(chan int, 100)
+	results := make(chan int, 100)
+
+	for w := 1; w <= 3; w++ {
+		go worker(w, jobs, results)
+	}
+
+	for j := 1; j <= 5; j++ {
+		jobs <- j
+	}
+	close(jobs)
+
+	for a := 1; a <= 5; a++ {
+		<-results
+	}
+
+	end := time.Now()
+	fmt.Printf("%f sec\n", (end.Sub(start)).Seconds())
+}
+
 func main() {
 	// a1()
 	// a2()
@@ -141,5 +195,8 @@ func main() {
 	// a5()
 	// a6()
 	// a7()
-	a8()
+	// a8()
+	// a9()
+	// a10()
+	a11()
 }
