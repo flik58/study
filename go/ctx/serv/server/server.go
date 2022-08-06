@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 
+	"serv/auth"
 	"serv/handlers"
+	"serv/session"
 )
 
 type MyServer struct {
@@ -28,7 +30,7 @@ func (srv *MyServer) Request(ctx context.Context, path string, token string) {
 
 	ctx = auth.SetAuthToken(ctx, token)
 
-	if handler, ok := srv.Router[req.GetPath()]; ok {
+	if handler, ok := srv.router[req.GetPath()]; ok {
 		handler(ctx, req)
 	} else {
 		handlers.NotFoutdHandler(ctx, req)

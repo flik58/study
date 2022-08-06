@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"time"
+
+	"serv/auth"
 )
 
 type MyHandleFunc func(context.Context, MyRequest)
