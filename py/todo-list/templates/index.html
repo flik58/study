@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Todo App</title>
+  </head>
+  <body>
+    <h1>Todo List</h1>
+    <div>Add a new todo item:
+      <from action="/add" method="POST">
+	<input type="text" name="todoitem">
+	<input type="submit">
+      </from>
+    </div>
+    <div>
+      <ui>
+	<li style="font-size: 20pt"><input type="checkbox">Some text</li>
+	<span><input type="checkbox">Some text</span>
+	<li><input type="checkbox">Some text</li>
+      </ui>
+    </div>
+  </body>
+</html>
